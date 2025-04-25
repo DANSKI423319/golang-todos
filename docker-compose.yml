@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "8080:8080"
+    networks:
+      - todos
+
+  mysql:
+    image: mysql:8.0
+    working_dir: /application
+    volumes:
+      - .:/application
+    environment:
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: golang_todos
+    ports:
+      - "3306:3306"
+    networks:
+      - todos
+
+networks:
+  todos:
+    driver: bridge
+
+volumes:
+  mysql:
+    driver: local

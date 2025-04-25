@@ -2,7 +2,11 @@ version: '3.8'
 
 services:
   api:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/application
     ports:
       - "8080:8080"
     networks:
@@ -12,7 +16,7 @@ services:
     image: mysql:8.0
     working_dir: /application
     volumes:
-      - .:/application
+      - mysql-data:/var/lib/mysql
     environment:
       MYSQL_USER: docker
       MYSQL_PASSWORD: password
@@ -28,5 +32,5 @@ networks:
     driver: bridge
 
 volumes:
-  mysql:
+  mysql-data:
     driver: local

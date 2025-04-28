@@ -8,4 +8,5 @@ import (
 
 func RegisterTodoRoutes(r *gin.Engine) {
 	r.GET("/todos", controllers.GetTodos)
+	r.GET("/todos/:id", controllers.GetTodo)
 }

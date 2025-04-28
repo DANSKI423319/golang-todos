@@ -11,6 +11,9 @@ services:
       - "8080:8080"
     networks:
       - todos
+    depends_on:
+      mysql:
+        condition: service_healthy
 
   mysql:
     image: mysql:8.0
@@ -26,6 +29,12 @@ services:
       - "3306:3306"
     networks:
       - todos
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "docker", "-ppassword"]
+      interval: 2s
+      timeout: 5s
+      retries: 3
+
 
 networks:
   todos:

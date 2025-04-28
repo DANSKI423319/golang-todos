@@ -5,7 +5,7 @@ This repository aims to contain an example dockerised Go API capturing CRUD func
 ## Features
 - [ ] Create new todo items
 - [X] Read all todo items
-- [ ] Read details of a specific todo item
+- [X] Read details of a specific todo item
 - [ ] Update existing todo items
 - [ ] Delete todo items
 

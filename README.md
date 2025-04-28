@@ -1,18 +1,27 @@
 # Go Language - Todo API
 
-This repository contains a simple Go API that provides endpoints to browse, read, edit, add, and delete todo items from a database.
+This repository aims to contain an example dockerised Go API capturing CRUD functionality.
 
 ## Features
-- Browse all todo items
-- Read details of a specific todo item
-- Edit existing todo items
-- Add new todo items
-- Delete todo items
+- [ ] Create new todo items
+- [X] Read all todo items
+- [ ] Read details of a specific todo item
+- [ ] Update existing todo items
+- [ ] Delete todo items
 
 ## Requirements
-The only requirement to use this repository is the `goose` go package
 
-Find installation guide at the [official documentation](https://pressly.github.io/goose/documentation/cli-commands/): 
+### Goose 🪿
+
+To run the migrations you'll find it helpful to have Goose installed.
+
+Find installation information at the [official documentation](https://pressly.github.io/goose/documentation/cli-commands/):
+
+### Docker Desktop 🐳
+
+You'll need docker on your machine, and the desktop app to go with it.
+
+Find installation information at the [official website](https://www.docker.com/products/docker-desktop/)
 
 ## Getting Started
 1. Clone the repository:
@@ -26,6 +35,11 @@ Find installation guide at the [official documentation](https://pressly.github.i
 3. Start the docker container:
    ```bash
    docker compose up -d
+   ```
+
+4. Use goose
+   ```bash
+   goose up
    ```
 
 4. Access the API at `http://localhost:8080` using API client of your choice

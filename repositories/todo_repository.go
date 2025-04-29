@@ -85,3 +85,25 @@ func TodoUpdate(id string, request *requests.UpdateTodoRequest) (models.Todo, er
 
 	return todo, nil
 }
+
+func TodoDelete(id string) error {
+	var todo models.Todo
+
+	if err := database.Database.Unscoped().First(&todo, id).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil
+		}
+
+		return err
+	}
+
+	if todo.DeletedAt != nil {
+		return errors.New("todo already deleted")
+	}
+
+	if err := database.Database.Delete(&todo).Error; err != nil {
+		return err
+	}
+
+	return nil
+}

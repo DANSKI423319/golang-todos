@@ -15,11 +15,11 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-type MockSucceedingTodoRepository struct{}
+type MockTodoRepository struct{}
 
 func TestTodoController(t *testing.T) {
 	router := routes.SetupRouter()
-	repositories.TodoRepository = &MockSucceedingTodoRepository{}
+	repositories.TodoRepository = &MockTodoRepository{}
 
 	t.Run("todo index", func(t *testing.T) {
 		req := httptest.NewRequest("GET", "/todos", nil)
@@ -79,7 +79,7 @@ func TestTodoController(t *testing.T) {
 
 // -- mocks
 
-func (m *MockSucceedingTodoRepository) TodoShow(id string) (models.Todo, error) {
+func (m *MockTodoRepository) TodoShow(id string) (models.Todo, error) {
 	return models.Todo{
 		ID:          1,
 		Task:        "Show Test",
@@ -89,7 +89,7 @@ func (m *MockSucceedingTodoRepository) TodoShow(id string) (models.Todo, error) 
 	}, nil
 }
 
-func (m *MockSucceedingTodoRepository) TodoIndex() ([]models.Todo, error) {
+func (m *MockTodoRepository) TodoIndex() ([]models.Todo, error) {
 	return []models.Todo{
 		{
 			ID:          1,
@@ -101,7 +101,7 @@ func (m *MockSucceedingTodoRepository) TodoIndex() ([]models.Todo, error) {
 	}, nil
 }
 
-func (m *MockSucceedingTodoRepository) TodoCreate(request *requests.CreateTodoRequest) (models.Todo, error) {
+func (m *MockTodoRepository) TodoCreate(request *requests.CreateTodoRequest) (models.Todo, error) {
 	todo := models.Todo{
 		Task:        "Create Test",
 		CompletedAt: nil,
@@ -112,7 +112,7 @@ func (m *MockSucceedingTodoRepository) TodoCreate(request *requests.CreateTodoRe
 	return todo, nil
 }
 
-func (m *MockSucceedingTodoRepository) TodoUpdate(id string, request *requests.UpdateTodoRequest) (models.Todo, error) {
+func (m *MockTodoRepository) TodoUpdate(id string, request *requests.UpdateTodoRequest) (models.Todo, error) {
 	todo := models.Todo{
 		ID:          1,
 		Task:        "Update Test",
@@ -124,6 +124,6 @@ func (m *MockSucceedingTodoRepository) TodoUpdate(id string, request *requests.U
 	return todo, nil
 }
 
-func (m *MockSucceedingTodoRepository) TodoDelete(id string) error {
+func (m *MockTodoRepository) TodoDelete(id string) error {
 	return nil
 }

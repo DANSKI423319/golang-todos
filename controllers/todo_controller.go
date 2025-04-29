@@ -86,3 +86,14 @@ func UpdateTodo(c *gin.Context) {
 
 	c.JSON(http.StatusOK, todo)
 }
+
+func DeleteTodo(c *gin.Context) {
+	id := c.Param("id")
+
+	if err := repositories.TodoDelete(id); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.Status(http.StatusNoContent)
+}

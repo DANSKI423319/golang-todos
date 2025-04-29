@@ -8,9 +8,8 @@ This repository aims to contain an example dockerised Go API capturing CRUD func
 - [X] Read details of a specific todo item
 - [X] Update existing todo items
 - [X] Delete todo items
-
-- [X] Controller Test Suite
-- [X] Repository Mock
+- [X] Controller test suite
+- [X] Repository mock
 
 ## Build Information
 

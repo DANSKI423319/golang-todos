@@ -9,6 +9,8 @@ This repository aims to contain an example dockerised Go API capturing CRUD func
 - [X] Update existing todo items
 - [X] Delete todo items
 
+- [ ] Test Suite
+
 ## Build Information
 
 ### GORM 🗺️

@@ -4,9 +4,14 @@ import (
 	"net/http"
 
 	"golang-todos/repositories"
+	"golang-todos/types/requests"
+	"golang-todos/utils"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
+
+var validate = validator.New()
 
 func GetTodos(c *gin.Context) {
 	todos, err := repositories.TodoIndex()
@@ -35,4 +40,26 @@ func GetTodo(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, todo)
+}
+
+func CreateTodo(c *gin.Context) {
+	var request requests.CreateTodoRequest
+
+	if err := c.ShouldBind(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := validate.Struct(request); err != nil {
+		utils.HandleValidationError(c, err)
+		return
+	}
+
+	todo, err := repositories.TodoCreate(&request)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusCreated, todo)
 }

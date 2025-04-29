@@ -5,13 +5,10 @@ import (
 	"golang-todos/routes"
 	"log"
 
-	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
 func main() {
-	var r *gin.Engine = gin.Default()
-
 	envError := godotenv.Load()
 	if envError != nil {
 		panic("Error loading .env file")
@@ -35,7 +32,6 @@ func main() {
 
 	defer db.Close()
 
-	routes.RegisterTodoRoutes(r)
-
-	r.Run(":8080")
+	router := routes.SetupRouter()
+	router.Run(":8080")
 }

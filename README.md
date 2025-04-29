@@ -7,7 +7,18 @@ This repository aims to contain an example dockerised Go API capturing CRUD func
 - [X] Read all todo items
 - [X] Read details of a specific todo item
 - [X] Update existing todo items
-- [ ] Delete todo items
+- [X] Delete todo items
+
+## Build Information
+
+### GORM 🗺️
+GORM is an ORM (Object Relational Mapper) library for Go. It simplifies database interactions by allowing you to work with Go structs instead of writing raw SQL queries.
+
+### GIN 🍸
+GIN is a high-performance HTTP web framework for Go. It provides a simple way to build APIs with features like routing, middleware support, and JSON handling.
+
+### AIR 💨
+AIR is a live-reloading development tool for Go. It automatically rebuilds and restarts your application whenever you make changes to the code. This significantly speeds up the development process by eliminating the need to manually restart the server after every change. In this project, AIR ensures a smooth and efficient development workflow.
 
 ## Requirements
 

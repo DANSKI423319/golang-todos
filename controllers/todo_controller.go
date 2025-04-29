@@ -63,3 +63,26 @@ func CreateTodo(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, todo)
 }
+
+func UpdateTodo(c *gin.Context) {
+	var request requests.UpdateTodoRequest
+
+	if err := c.ShouldBind(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := validate.Struct(request); err != nil {
+		utils.HandleValidationError(c, err)
+		return
+	}
+
+	id := c.Param("id")
+	todo, err := repositories.TodoUpdate(id, &request)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, todo)
+}

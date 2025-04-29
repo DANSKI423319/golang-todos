@@ -18,7 +18,7 @@ GORM is an ORM (Object Relational Mapper) library for Go. It simplifies database
 GIN is a high-performance HTTP web framework for Go. It provides a simple way to build APIs with features like routing, middleware support, and JSON handling.
 
 ### AIR 💨
-AIR is a live-reloading development tool for Go. It automatically rebuilds and restarts your application whenever you make changes to the code. This significantly speeds up the development process by eliminating the need to manually restart the server after every change. In this project, AIR ensures a smooth and efficient development workflow.
+AIR is a live-reloading development tool for Go. It automatically rebuilds and restarts your application whenever you make changes to the code.
 
 ## Requirements
 

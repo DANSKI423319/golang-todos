@@ -1,4 +1,4 @@
-# Go Language - Todo API
+# Go - Todo API
 
 This repository aims to contain an example dockerised Go API capturing CRUD functionality.
 

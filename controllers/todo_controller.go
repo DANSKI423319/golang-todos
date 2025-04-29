@@ -14,7 +14,7 @@ import (
 var validate = validator.New()
 
 func GetTodos(c *gin.Context) {
-	todos, err := repositories.TodoIndex()
+	todos, err := repositories.TodoRepository.TodoIndex()
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -27,7 +27,7 @@ func GetTodos(c *gin.Context) {
 func GetTodo(c *gin.Context) {
 	id := c.Param("id")
 
-	todo, err := repositories.TodoShow(id)
+	todo, err := repositories.TodoRepository.TodoShow(id)
 
 	if todo.ID == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Todo not found"})
@@ -55,7 +55,7 @@ func CreateTodo(c *gin.Context) {
 		return
 	}
 
-	todo, err := repositories.TodoCreate(&request)
+	todo, err := repositories.TodoRepository.TodoCreate(&request)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -78,7 +78,7 @@ func UpdateTodo(c *gin.Context) {
 	}
 
 	id := c.Param("id")
-	todo, err := repositories.TodoUpdate(id, &request)
+	todo, err := repositories.TodoRepository.TodoUpdate(id, &request)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -90,7 +90,7 @@ func UpdateTodo(c *gin.Context) {
 func DeleteTodo(c *gin.Context) {
 	id := c.Param("id")
 
-	if err := repositories.TodoDelete(id); err != nil {
+	if err := repositories.TodoRepository.TodoDelete(id); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}

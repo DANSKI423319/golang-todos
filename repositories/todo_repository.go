@@ -10,7 +10,17 @@ import (
 	"gorm.io/gorm"
 )
 
-func TodoIndex() ([]models.Todo, error) {
+type TodoRepositoryInterface interface {
+	TodoShow(id string) (models.Todo, error)
+	TodoIndex() ([]models.Todo, error)
+	TodoCreate(request *requests.CreateTodoRequest) (models.Todo, error)
+	TodoUpdate(id string, request *requests.UpdateTodoRequest) (models.Todo, error)
+	TodoDelete(id string) error
+}
+
+type DefaultTodoRepository struct{}
+
+func (r *DefaultTodoRepository) TodoIndex() ([]models.Todo, error) {
 	var todos []models.Todo
 
 	if err := database.Database.Find(&todos).Error; err != nil {
@@ -20,7 +30,7 @@ func TodoIndex() ([]models.Todo, error) {
 	return todos, nil
 }
 
-func TodoShow(id string) (models.Todo, error) {
+func (r *DefaultTodoRepository) TodoShow(id string) (models.Todo, error) {
 	var todo models.Todo
 
 	if err := database.Database.First(&todo, id).Error; err != nil {
@@ -34,7 +44,7 @@ func TodoShow(id string) (models.Todo, error) {
 	return todo, nil
 }
 
-func TodoCreate(request *requests.CreateTodoRequest) (models.Todo, error) {
+func (r *DefaultTodoRepository) TodoCreate(request *requests.CreateTodoRequest) (models.Todo, error) {
 	todo := models.Todo{
 		Task:        request.Task,
 		CompletedAt: nil,
@@ -51,7 +61,7 @@ func TodoCreate(request *requests.CreateTodoRequest) (models.Todo, error) {
 	return todo, nil
 }
 
-func TodoUpdate(id string, request *requests.UpdateTodoRequest) (models.Todo, error) {
+func (r *DefaultTodoRepository) TodoUpdate(id string, request *requests.UpdateTodoRequest) (models.Todo, error) {
 	var todo models.Todo
 
 	if err := database.Database.First(&todo, id).Error; err != nil {
@@ -86,7 +96,7 @@ func TodoUpdate(id string, request *requests.UpdateTodoRequest) (models.Todo, er
 	return todo, nil
 }
 
-func TodoDelete(id string) error {
+func (r *DefaultTodoRepository) TodoDelete(id string) error {
 	var todo models.Todo
 
 	if err := database.Database.Unscoped().First(&todo, id).Error; err != nil {
@@ -107,3 +117,5 @@ func TodoDelete(id string) error {
 
 	return nil
 }
+
+var TodoRepository TodoRepositoryInterface = &DefaultTodoRepository{}

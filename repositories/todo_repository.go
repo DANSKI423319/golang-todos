@@ -50,3 +50,38 @@ func TodoCreate(request *requests.CreateTodoRequest) (models.Todo, error) {
 
 	return todo, nil
 }
+
+func TodoUpdate(id string, request *requests.UpdateTodoRequest) (models.Todo, error) {
+	var todo models.Todo
+
+	if err := database.Database.First(&todo, id).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return models.Todo{}, nil
+		}
+
+		return models.Todo{}, err
+	}
+
+	now := time.Now()
+
+	if request.Task != "" {
+		todo.Task = request.Task
+	}
+
+	if request.IsComplete {
+		todo.CompletedAt = &now
+	}
+
+	if !request.IsComplete {
+		todo.CompletedAt = nil
+	}
+
+	todo.UpdatedAt = now
+
+	err := database.Database.Save(&todo).Error
+	if err != nil {
+		return models.Todo{}, err
+	}
+
+	return todo, nil
+}

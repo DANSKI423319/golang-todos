@@ -15,3 +15,15 @@ func HandleValidationError(c *gin.Context, err error) {
 		"message": firstError.ActualTag(),
 	})
 }
+
+func HandleItemNotFoundError(c *gin.Context) {
+	c.JSON(http.StatusNotFound, gin.H{"error": "Item not found"})
+}
+
+func HandleInternalServerError(c *gin.Context, err error) {
+	c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+}
+
+func HandleBindingError(c *gin.Context, err error) {
+	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+}

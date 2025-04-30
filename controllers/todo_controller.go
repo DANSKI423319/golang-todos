@@ -17,7 +17,7 @@ func GetTodos(c *gin.Context) {
 	todos, err := repositories.TodoRepository.TodoIndex()
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		utils.HandleInternalServerError(c, err)
 		return
 	}
 
@@ -30,12 +30,12 @@ func GetTodo(c *gin.Context) {
 	todo, err := repositories.TodoRepository.TodoShow(id)
 
 	if todo.ID == 0 {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Todo not found"})
+		utils.HandleItemNotFoundError(c)
 		return
 	}
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		utils.HandleInternalServerError(c, err)
 		return
 	}
 
@@ -46,7 +46,7 @@ func CreateTodo(c *gin.Context) {
 	var request requests.CreateTodoRequest
 
 	if err := c.ShouldBind(&request); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		utils.HandleBindingError(c, err)
 		return
 	}
 
@@ -57,7 +57,7 @@ func CreateTodo(c *gin.Context) {
 
 	todo, err := repositories.TodoRepository.TodoCreate(&request)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		utils.HandleInternalServerError(c, err)
 		return
 	}
 
@@ -68,7 +68,7 @@ func UpdateTodo(c *gin.Context) {
 	var request requests.UpdateTodoRequest
 
 	if err := c.ShouldBind(&request); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		utils.HandleBindingError(c, err)
 		return
 	}
 
@@ -80,7 +80,7 @@ func UpdateTodo(c *gin.Context) {
 	id := c.Param("id")
 	todo, err := repositories.TodoRepository.TodoUpdate(id, &request)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		utils.HandleInternalServerError(c, err)
 		return
 	}
 
@@ -91,7 +91,7 @@ func DeleteTodo(c *gin.Context) {
 	id := c.Param("id")
 
 	if err := repositories.TodoRepository.TodoDelete(id); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		utils.HandleInternalServerError(c, err)
 		return
 	}
 

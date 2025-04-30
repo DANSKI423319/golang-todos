@@ -85,7 +85,7 @@ func DeleteTodo(c *gin.Context) {
 	id := c.Param("id")
 
 	if err := repositories.TodoRepository.TodoDelete(id); err != nil {
-		utils.HandleInternalServerError(c, err)
+		utils.HandleAmbiguousError(c, err)
 		return
 	}
 

@@ -21,6 +21,10 @@ func HandleAmbiguousError(c *gin.Context, err error) {
 		HandleItemNotFoundError(c)
 		return
 	}
+	if err.Error() == "deleted" {
+		HandleItemNotFoundError(c)
+		return
+	}
 	HandleInternalServerError(c, err)
 }
 

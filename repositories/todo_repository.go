@@ -108,7 +108,7 @@ func (r *DefaultTodoRepository) TodoDelete(id string) error {
 	}
 
 	if todo.DeletedAt != nil {
-		return errors.New("todo already deleted")
+		return errors.New("deleted")
 	}
 
 	if err := database.Database.Delete(&todo).Error; err != nil {

@@ -16,6 +16,14 @@ func HandleValidationError(c *gin.Context, err error) {
 	})
 }
 
+func HandleAmbiguousError(c *gin.Context, err error) {
+	if err.Error() == "not_found" {
+		HandleItemNotFoundError(c)
+		return
+	}
+	HandleInternalServerError(c, err)
+}
+
 func HandleItemNotFoundError(c *gin.Context) {
 	c.JSON(http.StatusNotFound, gin.H{"error": "Item not found"})
 }

@@ -22,7 +22,7 @@ func TestTodoController(t *testing.T) {
 	repositories.TodoRepository = &MockTodoRepository{}
 
 	t.Run("todo index", func(t *testing.T) {
-		req := httptest.NewRequest("GET", "/todos", nil)
+		req := httptest.NewRequest("GET", "/api/v1/todos", nil)
 		w := httptest.NewRecorder()
 		router.ServeHTTP(w, req)
 
@@ -31,7 +31,7 @@ func TestTodoController(t *testing.T) {
 	})
 
 	t.Run("todo show", func(t *testing.T) {
-		req := httptest.NewRequest("GET", "/todos/1", nil)
+		req := httptest.NewRequest("GET", "/api/v1/todos/1", nil)
 		w := httptest.NewRecorder()
 		router.ServeHTTP(w, req)
 
@@ -45,7 +45,7 @@ func TestTodoController(t *testing.T) {
 		}
 		payloadJSON, _ := json.Marshal(payload)
 		println(string(payloadJSON))
-		req := httptest.NewRequest("POST", "/todos", strings.NewReader(string(payloadJSON)))
+		req := httptest.NewRequest("POST", "/api/v1/todos", strings.NewReader(string(payloadJSON)))
 		req.Header.Set("Content-Type", "application/json")
 		w := httptest.NewRecorder()
 		router.ServeHTTP(w, req)
@@ -59,7 +59,7 @@ func TestTodoController(t *testing.T) {
 			Task: "Update Test",
 		}
 		payloadJSON, _ := json.Marshal(payload)
-		req := httptest.NewRequest("PUT", "/todos/1", strings.NewReader(string(payloadJSON)))
+		req := httptest.NewRequest("PUT", "/api/v1/todos/1", strings.NewReader(string(payloadJSON)))
 		req.Header.Set("Content-Type", "application/json")
 		w := httptest.NewRecorder()
 		router.ServeHTTP(w, req)
@@ -69,7 +69,7 @@ func TestTodoController(t *testing.T) {
 	})
 
 	t.Run("delete todo", func(t *testing.T) {
-		req := httptest.NewRequest("DELETE", "/todos/1", nil)
+		req := httptest.NewRequest("DELETE", "/api/v1/todos/1", nil)
 		w := httptest.NewRecorder()
 		router.ServeHTTP(w, req)
 

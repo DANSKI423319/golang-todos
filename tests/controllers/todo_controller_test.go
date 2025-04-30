@@ -44,7 +44,6 @@ func TestTodoController(t *testing.T) {
 			Task: "Create Test",
 		}
 		payloadJSON, _ := json.Marshal(payload)
-		println(string(payloadJSON))
 		req := httptest.NewRequest("POST", "/api/v1/todos", strings.NewReader(string(payloadJSON)))
 		req.Header.Set("Content-Type", "application/json")
 		w := httptest.NewRecorder()
@@ -77,7 +76,7 @@ func TestTodoController(t *testing.T) {
 	})
 }
 
-// -- mocks
+// Mocks
 
 func (m *MockTodoRepository) TodoShow(id string) (models.Todo, error) {
 	return models.Todo{

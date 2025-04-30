@@ -78,18 +78,20 @@ func TestTodoController(t *testing.T) {
 
 // Mocks
 
-func (m *MockTodoRepository) TodoShow(id string) (models.Todo, error) {
-	return models.Todo{
+func (m *MockTodoRepository) TodoShow(id string) (*models.Todo, error) {
+	todo := &models.Todo{
 		ID:          1,
 		Task:        "Show Test",
 		CompletedAt: nil,
 		CreatedAt:   time.Now(),
 		UpdatedAt:   time.Now(),
-	}, nil
+	}
+
+	return todo, nil
 }
 
 func (m *MockTodoRepository) TodoIndex() ([]models.Todo, error) {
-	return []models.Todo{
+	todos := []models.Todo{
 		{
 			ID:          1,
 			Task:        "Index Test",
@@ -97,11 +99,13 @@ func (m *MockTodoRepository) TodoIndex() ([]models.Todo, error) {
 			CreatedAt:   time.Now(),
 			UpdatedAt:   time.Now(),
 		},
-	}, nil
+	}
+
+	return todos, nil
 }
 
-func (m *MockTodoRepository) TodoCreate(request *requests.CreateTodoRequest) (models.Todo, error) {
-	todo := models.Todo{
+func (m *MockTodoRepository) TodoCreate(request *requests.CreateTodoRequest) (*models.Todo, error) {
+	todo := &models.Todo{
 		Task:        "Create Test",
 		CompletedAt: nil,
 		CreatedAt:   time.Now(),
@@ -111,8 +115,8 @@ func (m *MockTodoRepository) TodoCreate(request *requests.CreateTodoRequest) (mo
 	return todo, nil
 }
 
-func (m *MockTodoRepository) TodoUpdate(id string, request *requests.UpdateTodoRequest) (models.Todo, error) {
-	todo := models.Todo{
+func (m *MockTodoRepository) TodoUpdate(id string, request *requests.UpdateTodoRequest) (*models.Todo, error) {
+	todo := &models.Todo{
 		ID:          1,
 		Task:        "Update Test",
 		CompletedAt: nil,

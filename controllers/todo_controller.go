@@ -29,14 +29,8 @@ func GetTodo(c *gin.Context) {
 
 	todo, err := repositories.TodoRepository.TodoShow(id)
 
-	if todo.ID == 0 {
-		utils.HandleItemNotFoundError(c)
-		return
-	}
-
 	if err != nil {
-		utils.HandleInternalServerError(c, err)
-		return
+		utils.HandleAmbiguousError(c, err)
 	}
 
 	c.JSON(http.StatusOK, todo)
@@ -80,7 +74,7 @@ func UpdateTodo(c *gin.Context) {
 	id := c.Param("id")
 	todo, err := repositories.TodoRepository.TodoUpdate(id, &request)
 	if err != nil {
-		utils.HandleInternalServerError(c, err)
+		utils.HandleAmbiguousError(c, err)
 		return
 	}
 

@@ -11,10 +11,10 @@ import (
 )
 
 type TodoRepositoryInterface interface {
-	TodoShow(id string) (models.Todo, error)
+	TodoShow(id string) (*models.Todo, error)
 	TodoIndex() ([]models.Todo, error)
-	TodoCreate(request *requests.CreateTodoRequest) (models.Todo, error)
-	TodoUpdate(id string, request *requests.UpdateTodoRequest) (models.Todo, error)
+	TodoCreate(request *requests.CreateTodoRequest) (*models.Todo, error)
+	TodoUpdate(id string, request *requests.UpdateTodoRequest) (*models.Todo, error)
 	TodoDelete(id string) error
 }
 
@@ -30,21 +30,21 @@ func (r *DefaultTodoRepository) TodoIndex() ([]models.Todo, error) {
 	return todos, nil
 }
 
-func (r *DefaultTodoRepository) TodoShow(id string) (models.Todo, error) {
+func (r *DefaultTodoRepository) TodoShow(id string) (*models.Todo, error) {
 	var todo models.Todo
 
 	if err := database.Database.First(&todo, id).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return models.Todo{}, nil
+			return nil, errors.New("not_found")
 		}
 
-		return models.Todo{}, err
+		return nil, err
 	}
 
-	return todo, nil
+	return &todo, nil
 }
 
-func (r *DefaultTodoRepository) TodoCreate(request *requests.CreateTodoRequest) (models.Todo, error) {
+func (r *DefaultTodoRepository) TodoCreate(request *requests.CreateTodoRequest) (*models.Todo, error) {
 	todo := models.Todo{
 		Task:        request.Task,
 		CompletedAt: nil,
@@ -55,21 +55,21 @@ func (r *DefaultTodoRepository) TodoCreate(request *requests.CreateTodoRequest) 
 
 	err := database.Database.Create(&todo).Error
 	if err != nil {
-		return models.Todo{}, err
+		return nil, err
 	}
 
-	return todo, nil
+	return &todo, nil
 }
 
-func (r *DefaultTodoRepository) TodoUpdate(id string, request *requests.UpdateTodoRequest) (models.Todo, error) {
+func (r *DefaultTodoRepository) TodoUpdate(id string, request *requests.UpdateTodoRequest) (*models.Todo, error) {
 	var todo models.Todo
 
 	if err := database.Database.First(&todo, id).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return models.Todo{}, nil
+			return nil, errors.New("not_found")
 		}
 
-		return models.Todo{}, err
+		return nil, err
 	}
 
 	now := time.Now()
@@ -90,10 +90,10 @@ func (r *DefaultTodoRepository) TodoUpdate(id string, request *requests.UpdateTo
 
 	err := database.Database.Save(&todo).Error
 	if err != nil {
-		return models.Todo{}, err
+		return nil, err
 	}
 
-	return todo, nil
+	return &todo, nil
 }
 
 func (r *DefaultTodoRepository) TodoDelete(id string) error {
